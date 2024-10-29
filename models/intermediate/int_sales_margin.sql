@@ -7,8 +7,10 @@ USING(products_id)
 )
 SELECT
  date_date
+ , orders_id
  , products_id
  , revenue
  , quantity
- , purchase_price * quantity AS purchase_cost
+ , ROUND(purchase_price * quantity, 2) AS purchase_cost
+ , ROUND(revenue - (purchase_price * quantity), 2) AS margin
 FROM price
