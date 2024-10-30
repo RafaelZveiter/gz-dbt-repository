@@ -197,4 +197,12 @@ models:
       tests:
         - unique
         - not_null
+ - name: finance_campaign_day
+   description: ads finance kpis per dat
+   columns:
+    - name: date_date
+      description: primary key
+      tests:
+        - unique
+        - not_null
     

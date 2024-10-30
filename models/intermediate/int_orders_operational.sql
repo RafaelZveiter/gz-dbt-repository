@@ -16,6 +16,7 @@ SELECT
     , margin
     , revenue
     , shipping_fee
+    , ship_cost
     , logcost
     , purchase_cost
 FROM op

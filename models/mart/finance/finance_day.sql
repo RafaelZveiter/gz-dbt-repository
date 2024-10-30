@@ -10,6 +10,7 @@ SELECT
     , ROUND(SUM(shipping_fee), 1) AS shipping_fee
     , ROUND(SUM(logcost), 1) AS log_cost
     , SUM(quantity) AS quantity
+    , SUM(ship_cost) AS ship_cost
 FROM {{ ref('int_orders_operational') }}
 GROUP BY date_date
 ORDER BY date_date DESC
