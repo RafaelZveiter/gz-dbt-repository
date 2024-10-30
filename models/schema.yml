@@ -1,0 +1,149 @@
+version: 2
+
+
+sources:
+  - name: raw
+    schema: gz_raw_data
+    tables:
+      - name: sales
+        identifier: raw_gz_sales
+        description: greenweez sales information
+        loaded_at_field: "CAST(date_date AS TIMESTAMP)"
+        freshness: 
+          warn_after:
+            period: day
+            count: 90
+        columns:
+          - name: "(orders_id || '-' || pdt_id)"
+            tests:
+              - unique
+              - not_null 
+          - name: date_date
+            description: date of purchase
+          - name: orders_id
+            description: order unique identifier
+          - name: products_id
+            description: product unique identifier
+          - name: revenue
+            description: revenue associated to each product of the order
+          - name: quantity
+            description: amount of each product bought in this order
+      - name: product
+        identifier: raw_gz_product
+        description: product information
+        columns:
+          - name: products_id
+            description: product unique identifier
+            tests:
+             - not_null
+             - unique
+          - name: purchase_price
+            description: cost of purchase of each product
+      - name: ship
+        identifier: raw_gz_ship
+        description: shipment information
+        columns:
+          - name: orders_id
+            description: order unique identifier
+            tests:
+              - unique
+              - not_null
+          - name: shipping_fee
+            description: shipping fee charged on each order
+          - name: log_cost
+            description: logistics cost of each order
+          - name: shipcost
+            description: shipment cost of each order
+models:
+ - name: int_orders_margin
+   description: margin per order
+   columns:
+    - name: orders_id
+      description: orders unique identifier
+      tests:
+        - unique
+        - not_null
+    - name: date_date
+      description: date of order
+    - name: revenue
+      description: total revenue per order
+    - name: quantity
+      description: total quantity of products bought 
+    - name: purchase_cost
+      description: purchase cost of products sold
+    - name: margin
+      description: purchase cost subracted from revenue
+ - name: int_orders_operational
+   description: operational margin calculated per order
+   columns:
+    - name: orders_id
+      description: orders unique identifier
+      tests:
+        - unique
+        - not_null
+    - name: date_date
+      description: date of order
+    - name: operational_margin
+      description: logistics and shipment costs subtracted from the margin with shipping fee
+    - name: quantity
+      description: quantity od products sold in order
+    - name: margin
+      description: purchase cost subtracted from revenue
+    - name: revenue
+      description: total revenue per order
+    - name: shipping_fee
+      description: shipping fee charged on each order
+    - name: logcost
+      description: logistics cost of each order
+    - name: ship_cost
+      description: shipment cost of each order
+ - name: int_sales_margin
+   description: margin per sale calculated
+   columns:
+    - name: "(orders_id || '-' || products_id)"
+      description: primary key
+      tests:
+        - unique
+        - not_null 
+    - name: date_date
+      description: date of sale
+    - name: orders_id
+      description: order unique identifier
+    - name: products_id
+      description: product unique identifier
+    - name: revenue
+      description: total revenue per sale
+    - name: quantity
+      description: amount of each product sold 
+    - name: purchase_cost
+      description: cost of products for each sale
+    - name: margin
+      description: purchase cost subtracted from the revenue
+ - name: finance_day
+   description: kpi's per day
+   columns:
+    - name: date_date
+      description: date analysed
+      tests:
+        - unique
+        - not_null
+    - name: nb_transactions
+      description: number of orders per day
+    - name: revenue
+      description: revenue per day
+    - name: average basket
+      description: average basket value per day
+    - name: margin
+      description: margin per day
+    - name: operational_margin
+      description: operational margin per day
+    - name: purchase_cost
+      description: purchase costs per day
+    - name: shipping_fee
+      description: total shipping fee per day
+    - name: log_cost
+      description: total cost of logistics per day
+    - name: quantity
+      description: quantity of products sold per day
+
+    
