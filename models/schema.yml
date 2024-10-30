@@ -8,15 +8,39 @@ sources:
       - name: adwords
         identifier: raw_gz_adwords
         description: ads info from Adwords
+        columns:
+          - name: "(date_date || '-' || campaign_key)"
+            description: primary key
+            tests:
+              - unique
+              - not_null 
       - name: bing
         identifier: raw_gz_bing
         description: ads info from Bing
+        columns:
+          - name: "(date_date || '-' || campaign_key)"
+            description: primary key
+            tests:
+              - unique
+              - not_null
       - name: criteo
         identifier: raw_gz_criteo
         description: ads info from Criteo
+        columns:
+          - name: "(date_date || '-' || campaign_key)"
+            description: primary key
+            tests:
+              - unique
+              - not_null
       - name: facebook
         identifier: raw_gz_facebook
         description: ads info from facebook
+        columns:
+          - name: "(date_date || '-' || campaign_key)"
+            description: primary key
+            tests:
+              - unique
+              - not_null
       - name: sales
         identifier: raw_gz_sales
         description: greenweez sales information
@@ -157,5 +181,20 @@ models:
       description: total cost of logistics per day
     - name: quantity
       description: quantity of products sold per day
-
+ - name: int_campaigns
+   description: integrated campaigns table
+   columns:
+    - name: "(date_date || '-' || campaign_key)"
+      description: primary key
+      tests:
+        - unique
+        - not_null
+ - name: int_campaigns_day
+   description: integrated campaign info per day
+   columns:
+    - name: date_date
+      description: primary key
+      tests:
+        - unique
+        - not_null
     
