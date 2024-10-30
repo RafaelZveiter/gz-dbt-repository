@@ -5,6 +5,18 @@ sources:
   - name: raw
     schema: gz_raw_data
     tables:
+      - name: adwords
+        identifier: raw_gz_adwords
+        description: ads info from Adwords
+      - name: bing
+        identifier: raw_gz_bing
+        description: ads info from Bing
+      - name: criteo
+        identifier: raw_gz_criteo
+        description: ads info from Criteo
+      - name: facebook
+        identifier: raw_gz_facebook
+        description: ads info from facebook
       - name: sales
         identifier: raw_gz_sales
         description: greenweez sales information
